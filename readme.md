@@ -570,6 +570,44 @@ This will produce the following output; one object is emitted per (populated) li
 
 ### Miscellaneous exports
 
+#### Expansions
+
+```ts
+import { expansions } from "@neomura/famistudio-text-format-parser";
+
+console.log(JSON.stringify(expansions, null, 2));
+```
+
+This will produce the following output:
+
+```json
+[
+  "VRC6",
+  "VRC7",
+  "FDS",
+  "MMC5",
+  "N163",
+  "S5B"
+]
+```
+
+#### Tempo Modes
+
+```ts
+import { tempoModes } from "@neomura/famistudio-text-format-parser";
+
+console.log(JSON.stringify(tempoModes, null, 2));
+```
+
+This will produce the following output:
+
+```json
+[
+  "FamiTracker",
+  "FamiStudio"
+]
+```
+
 #### Note values
 
 ```ts
