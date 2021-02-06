@@ -75,15 +75,18 @@ TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"`,
       ],
     },
     {
-      description: `white space`,
+      description: `white space, compact lines and escaped quotes`,
       input: `
 
    \t   TypeA AttributeAA="Value A A" AttributeAB="Value A B" AttributeAC="Value A C"
 
 
-TypeB AttributeBA="Value B A" AttributeBB    \t = \t \t    "Value B B" AttributeBC="Value B C"
+TypeB AttributeBA="Value B A" AttributeBB    \t = \t \t    "Value B B"   \t  AttributeBC="Value B C"\t
 
-    TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"
+    TypeC AttributeCA="Value C A""" AttributeCB="Value ""C"" B" AttributeCC="""Value C C"
+
+
+TypeD AttributeDA="Value D A"AttributeDB="Value D B"AttributeDC="Value D C"
 
 
     `,
@@ -126,8 +129,8 @@ TypeB AttributeBA="Value B A" AttributeBB    \t = \t \t    "Value B B" Attribute
               value: `Value B B`,
             },
             AttributeBC: {
-              keyColumn: 69,
-              valueColumn: 82,
+              keyColumn: 74,
+              valueColumn: 87,
               value: `Value B C`,
             },
           },
@@ -140,17 +143,39 @@ TypeB AttributeBA="Value B A" AttributeBB    \t = \t \t    "Value B B" Attribute
             AttributeCA: {
               keyColumn: 11,
               valueColumn: 24,
-              value: `Value C A`,
+              value: `Value C A"`,
             },
             AttributeCB: {
-              keyColumn: 35,
-              valueColumn: 48,
-              value: `Value C B`,
+              keyColumn: 37,
+              valueColumn: 50,
+              value: `Value "C" B`,
             },
             AttributeCC: {
-              keyColumn: 59,
-              valueColumn: 72,
-              value: `Value C C`,
+              keyColumn: 65,
+              valueColumn: 78,
+              value: `"Value C C`,
+            },
+          },
+        },
+        {
+          row: 11,
+          typeColumn: 1,
+          type: `TypeD`,
+          attributes: {
+            AttributeDA: {
+              keyColumn: 7,
+              valueColumn: 20,
+              value: `Value D A`,
+            },
+            AttributeDB: {
+              keyColumn: 30,
+              valueColumn: 43,
+              value: `Value D B`,
+            },
+            AttributeDC: {
+              keyColumn: 53,
+              valueColumn: 66,
+              value: `Value D C`,
             },
           },
         },

@@ -81,6 +81,20 @@ type State =
       readonly key: string;
       readonly valueColumn: number;
       readonly value: string;
+    }
+  | {
+      readonly row: number;
+      readonly column: number;
+      readonly kind: `valueDoubleQuote`;
+      readonly typeColumn: number;
+      readonly type: string;
+      readonly attributes: {
+        readonly [key: string]: AttributeValue;
+      };
+      readonly keyColumn: number;
+      readonly key: string;
+      readonly valueColumn: number;
+      readonly value: string;
     };
 
 export class TextToLineTransform extends Transform {
@@ -499,15 +513,7 @@ export class TextToLineTransform extends Transform {
                 ...this.state,
                 row,
                 column,
-                kind: `betweenAttributes`,
-                attributes: {
-                  ...this.state.attributes,
-                  [this.state.key]: {
-                    keyColumn: this.state.keyColumn,
-                    valueColumn: this.state.valueColumn,
-                    value: this.state.value,
-                  },
-                },
+                kind: `valueDoubleQuote`,
               },
               line: null,
             };
@@ -522,6 +528,86 @@ export class TextToLineTransform extends Transform {
               },
               line: null,
             };
+        }
+
+      case `valueDoubleQuote`:
+        switch (character) {
+          case `\n`:
+          case `\r`:
+            return {
+              state: {
+                ...this.state,
+                row,
+                column,
+                kind: character === `\r` ? `carriageReturn` : `emptyLine`,
+              },
+              line: {
+                row: this.state.row,
+                type: this.state.type,
+                typeColumn: this.state.typeColumn,
+                attributes: {
+                  ...this.state.attributes,
+                  [this.state.key]: {
+                    keyColumn: this.state.keyColumn,
+                    valueColumn: this.state.valueColumn,
+                    value: this.state.value,
+                  },
+                },
+              },
+            };
+
+          case `"`:
+            return {
+              state: {
+                ...this.state,
+                row,
+                column,
+                kind: `value`,
+                value: `${this.state.value}"`,
+              },
+              line: null,
+            };
+
+          default:
+            if (character.trim()) {
+              return {
+                state: {
+                  ...this.state,
+                  row,
+                  column,
+                  kind: `key`,
+                  attributes: {
+                    ...this.state.attributes,
+                    [this.state.key]: {
+                      keyColumn: this.state.keyColumn,
+                      valueColumn: this.state.valueColumn,
+                      value: this.state.value,
+                    },
+                  },
+                  keyColumn: column,
+                  key: character,
+                },
+                line: null,
+              };
+            } else {
+              return {
+                state: {
+                  ...this.state,
+                  row,
+                  column,
+                  kind: `betweenAttributes`,
+                  attributes: {
+                    ...this.state.attributes,
+                    [this.state.key]: {
+                      keyColumn: this.state.keyColumn,
+                      valueColumn: this.state.valueColumn,
+                      value: this.state.value,
+                    },
+                  },
+                },
+                line: null,
+              };
+            }
         }
     }
   }
