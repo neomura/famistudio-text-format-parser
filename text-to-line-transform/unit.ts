@@ -896,6 +896,55 @@ TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"`,
 TypeB AttributeBA="Value B A" Attribut`,
       error: new FormatError(2, 38, `Unexpected line break during key`),
     },
+    {
+      description: `a line starts with an equals sign`,
+      input: `TypeA AttributeAA="Value A A" AttributeAB="Value A B" AttributeAC="Value A C"
+=TypeB AttributeBA="Value B A" AttributeBB="Value B B" AttributeBC="Value B C"
+TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"`,
+      error: new FormatError(2, 1, `Missing type and key`),
+    },
+    {
+      description: `a line starts with a double quote`,
+      input: `TypeA AttributeAA="Value A A" AttributeAB="Value A B" AttributeAC="Value A C"
+"TypeB AttributeBA="Value B A" AttributeBB="Value B B" AttributeBC="Value B C"
+TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"`,
+      error: new FormatError(2, 1, `Missing type and key`),
+    },
+    {
+      description: `a line's first attribute has no key`,
+      input: `TypeA AttributeAA="Value A A" AttributeAB="Value A B" AttributeAC="Value A C"
+TypeB="Value B A" AttributeBB="Value B B" AttributeBC="Value B C"
+TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"`,
+      error: new FormatError(2, 6, `Missing key`),
+    },
+    {
+      description: `a line's first attribute has no key or equals sign`,
+      input: `TypeA AttributeAA="Value A A" AttributeAB="Value A B" AttributeAC="Value A C"
+TypeB"Value B A" AttributeBB="Value B B" AttributeBC="Value B C"
+TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"`,
+      error: new FormatError(2, 6, `Missing key`),
+    },
+    {
+      description: `an attribute is missing an equals sign`,
+      input: `TypeA AttributeAA="Value A A" AttributeAB="Value A B" AttributeAC="Value A C"
+TypeB AttributeAA="Value B A" AttributeBB"Value B B" AttributeBC="Value B C"
+TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"`,
+      error: new FormatError(2, 42, `Missing equals sign`),
+    },
+    {
+      description: `an attribute is missing an equals sign with a space`,
+      input: `TypeA AttributeAA="Value A A" AttributeAB="Value A B" AttributeAC="Value A C"
+TypeB AttributeAA="Value B A" AttributeBB "Value B B" AttributeBC="Value B C"
+TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"`,
+      error: new FormatError(2, 43, `Missing equals sign`),
+    },
+    {
+      description: `an attribute has multiple equals signs`,
+      input: `TypeA AttributeAA="Value A A" AttributeAB="Value A B" AttributeAC="Value A C"
+TypeB AttributeAA="Value B A" AttributeBB=="Value B B" AttributeBC="Value B C"
+TypeC AttributeCA="Value C A" AttributeCB="Value C B" AttributeCC="Value C C"`,
+      error: new FormatError(2, 43, `Multiple equals signs`),
+    },
   ]) {
     describe(`given ${unsuccessfulScenario.description}`, () => {
       withBothLineBreakTypes(unsuccessfulScenario.input, (input) => {

@@ -185,32 +185,43 @@ export class TextToLineTransform extends Transform {
     switch (this.state.kind) {
       case `emptyLine`:
       case `carriageReturn`:
-        if (character.trim()) {
-          return {
-            state: {
-              ...this.state,
-              row,
-              column,
-              kind: `type`,
-              typeColumn: column,
-              type: character,
-            },
-            line: null,
-          };
-        } else {
-          return {
-            state: {
-              ...this.state,
-              row,
-              column,
-              kind: character === `\r` ? `carriageReturn` : `emptyLine`,
-            },
-            line: null,
-          };
+        switch (character) {
+          case `=`:
+          case `"`:
+            return new FormatError(row, column, `Missing type and key`);
+
+          default:
+            if (character.trim()) {
+              return {
+                state: {
+                  ...this.state,
+                  row,
+                  column,
+                  kind: `type`,
+                  typeColumn: column,
+                  type: character,
+                },
+                line: null,
+              };
+            } else {
+              return {
+                state: {
+                  ...this.state,
+                  row,
+                  column,
+                  kind: character === `\r` ? `carriageReturn` : `emptyLine`,
+                },
+                line: null,
+              };
+            }
         }
 
       case `type`:
         switch (character) {
+          case `=`:
+          case `"`:
+            return new FormatError(row, column, `Missing key`);
+
           case `\n`:
           case `\r`:
             return {
@@ -273,8 +284,8 @@ export class TextToLineTransform extends Transform {
               },
             };
 
-          case `"`:
           case `=`:
+          case `"`:
             return new FormatError(row, column, `Missing key`);
 
           default:
@@ -340,6 +351,9 @@ export class TextToLineTransform extends Transform {
               line: null,
             };
 
+          case `"`:
+            return new FormatError(row, column, `Missing equals sign`);
+
           default:
             if (character.trim()) {
               return {
@@ -402,6 +416,9 @@ export class TextToLineTransform extends Transform {
               line: null,
             };
 
+          case `"`:
+            return new FormatError(row, column, `Missing equals sign`);
+
           default:
             if (character.trim()) {
               return new FormatError(
@@ -430,6 +447,9 @@ export class TextToLineTransform extends Transform {
               this.state.column,
               `Unexpected line break after key`
             );
+
+          case `=`:
+            return new FormatError(row, column, `Multiple equals signs`);
 
           case `"`:
             return {
