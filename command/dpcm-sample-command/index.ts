@@ -5,5 +5,6 @@ export type DpcmSampleCommand = {
   readonly line: Line;
   readonly kind: `dpcmSample`;
   readonly name: string;
+  readonly reverseBits: boolean;
   readonly data: ReadonlyArray<U4>;
 };
