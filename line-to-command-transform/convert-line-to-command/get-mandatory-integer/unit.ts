@@ -303,27 +303,6 @@ describe(`getMandatoryInteger`, () => {
       output: `Attribute "testAttributeBKey" is mandatory for line type "Test Type", but its value does not contain an integer`,
     },
     {
-      description: `integer starting with non-digit`,
-      input: {
-        testAttributeAKey: {
-          keyColumn: 36,
-          valueColumn: 72,
-          value: `Test Attribute A Value`,
-        },
-        testAttributeBKey: {
-          keyColumn: 108,
-          valueColumn: 122,
-          value: `Q391`,
-        },
-        testAttributeCKey: {
-          keyColumn: 155,
-          valueColumn: 178,
-          value: `Test Attribute C Value`,
-        },
-      },
-      output: `Attribute "testAttributeBKey" is mandatory for line type "Test Type", but its value does not contain an integer`,
-    },
-    {
       description: `less than minimum`,
       input: {
         testAttributeAKey: {
