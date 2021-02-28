@@ -7,6 +7,7 @@ export { DpcmNoteValue, dpcmNoteValues } from "./dpcm-note-value";
 export { ChannelType, channelTypes } from "./channel-type";
 export { WaveformPreset, waveformPresets } from "./waveform-preset";
 export { VibratoSpeed } from "./vibrato-speed";
+export { Vrc7Patch, vrc7Patches } from "./vrc7-patch";
 export { N163WavePosition } from "./n163-wave-position";
 export { N163WaveSize } from "./n163-wave-size";
 export { U2 } from "./u2";
