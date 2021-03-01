@@ -1,13 +1,19 @@
-import { firstConversionErrorOr } from ".";
+import { firstConversionErrorOrHeaderAndAllOf } from ".";
 import { ConversionError } from "../conversion-error";
 
-type TestResult = `Test Result`;
+type TestCombined = {
+  testHeaderAKey: string;
+  testHeaderBKey: string;
+  testHeaderCKey: string;
+  testVariableAKey: string;
+  testVariableBKey: string;
+  testVariableCKey: string;
+};
 
-describe(`firstConversionErrorOr`, () => {
+describe(`firstConversionErrorOrHeaderAndAllOf`, () => {
   describe(`when the object contains a conversion error`, () => {
     let conversionError: ConversionError;
-    let callback: jasmine.Spy;
-    let output: ConversionError | TestResult;
+    let output: ConversionError | TestCombined;
 
     beforeAll(() => {
       conversionError = new ConversionError(
@@ -36,20 +42,21 @@ describe(`firstConversionErrorOr`, () => {
         `Test Conversion Error`
       );
 
-      callback = jasmine.createSpy(`callback`);
-
-      output = firstConversionErrorOr(
+      output = firstConversionErrorOrHeaderAndAllOf<
+        TestCombined,
+        `testHeaderAKey` | `testHeaderBKey` | `testHeaderCKey`
+      >(
+        {
+          testHeaderAKey: `Test Header A Value`,
+          testHeaderBKey: `Test Header B Value`,
+          testHeaderCKey: `Test Header C Value`,
+        },
         {
           testVariableAKey: `Test Variable A Value`,
           testVariableBKey: conversionError,
           testVariableCKey: `Test Variable C Value`,
-        },
-        callback
+        }
       );
-    });
-
-    it(`does not execute the callback`, () => {
-      expect(callback).not.toHaveBeenCalled();
     });
 
     it(`returns the first conversion error`, () => {
@@ -58,36 +65,35 @@ describe(`firstConversionErrorOr`, () => {
   });
 
   describe(`when the object does not contain a conversion error`, () => {
-    let callback: jasmine.Spy;
-    let output: ConversionError | TestResult;
+    let output: ConversionError | TestCombined;
 
     beforeAll(() => {
-      callback = jasmine.createSpy(`callback`).and.returnValue(`Test Result`);
-
-      output = firstConversionErrorOr(
+      output = firstConversionErrorOrHeaderAndAllOf<
+        TestCombined,
+        `testHeaderAKey` | `testHeaderBKey` | `testHeaderCKey`
+      >(
+        {
+          testHeaderAKey: `Test Header A Value`,
+          testHeaderBKey: `Test Header B Value`,
+          testHeaderCKey: `Test Header C Value`,
+        },
         {
           testVariableAKey: `Test Variable A Value`,
           testVariableBKey: `Test Variable B Value`,
           testVariableCKey: `Test Variable C Value`,
-        },
-        callback
+        }
       );
     });
 
-    it(`executes the callback once`, () => {
-      expect(callback).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the object to the callback`, () => {
-      expect(callback).toHaveBeenCalledWith({
+    it(`returns the combined object`, () => {
+      expect(output).toEqual({
+        testHeaderAKey: `Test Header A Value`,
+        testHeaderBKey: `Test Header B Value`,
+        testHeaderCKey: `Test Header C Value`,
         testVariableAKey: `Test Variable A Value`,
         testVariableBKey: `Test Variable B Value`,
         testVariableCKey: `Test Variable C Value`,
       });
-    });
-
-    it(`returns the result of the callback`, () => {
-      expect(output).toEqual(`Test Result`);
     });
   });
 });
