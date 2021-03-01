@@ -81,7 +81,7 @@ describe(`getOptionalEnum`, () => {
         testAttributeBKey: {
           keyColumn: 108,
           valueColumn: 122,
-          value: `Test Enum Value D`,
+          value: `Test Enum Key D`,
         },
         testAttributeCKey: {
           keyColumn: 155,
@@ -102,7 +102,7 @@ describe(`getOptionalEnum`, () => {
         testAttributeBKey: {
           keyColumn: 108,
           valueColumn: 122,
-          value: ` \n   \t   \r  Test Enum Value D \n   \t   \r  `,
+          value: ` \n   \t   \r  Test Enum Key D \n   \t   \r  `,
         },
         testAttributeCKey: {
           keyColumn: 155,
@@ -126,11 +126,11 @@ describe(`getOptionalEnum`, () => {
           },
           `testAttributeBKey`,
           [
-            `Test Enum Value A`,
-            `Test Enum Value B`,
-            `Test Enum Value C`,
-            `Test Enum Value D`,
-            `Test Enum Value E`,
+            [`Test Enum Key A`, `Test Enum Value A`],
+            [`Test Enum Key B`, `Test Enum Value B`],
+            [`Test Enum Key C`, `Test Enum Value C`],
+            [`Test Enum Key D`, `Test Enum Value D`],
+            [`Test Enum Key E`, `Test Enum Value E`],
           ]
         );
       });
@@ -161,7 +161,7 @@ describe(`getOptionalEnum`, () => {
           value: `Test Attribute C Value`,
         },
       } as { readonly [name: string]: AttributeValue },
-      output: `Attribute "testAttributeBKey" can only be one of "Test Enum Value A", "Test Enum Value B", "Test Enum Value C", "Test Enum Value D", "Test Enum Value E" when given for line type "Test Type", but its value "Test Invalid Value" was not recognized`,
+      output: `Attribute "testAttributeBKey" can only be one of "Test Enum Key A", "Test Enum Key B", "Test Enum Key C", "Test Enum Key D", "Test Enum Key E" when given for line type "Test Type", but its value "Test Invalid Value" was not recognized`,
     },
   ]) {
     describe(unsuccessfulScenario.description, () => {
@@ -177,11 +177,11 @@ describe(`getOptionalEnum`, () => {
         };
 
         output = getOptionalEnum<TestEnum>(line, `testAttributeBKey`, [
-          `Test Enum Value A`,
-          `Test Enum Value B`,
-          `Test Enum Value C`,
-          `Test Enum Value D`,
-          `Test Enum Value E`,
+          [`Test Enum Key A`, `Test Enum Value A`],
+          [`Test Enum Key B`, `Test Enum Value B`],
+          [`Test Enum Key C`, `Test Enum Value C`],
+          [`Test Enum Key D`, `Test Enum Value D`],
+          [`Test Enum Key E`, `Test Enum Value E`],
         ]);
       });
 
