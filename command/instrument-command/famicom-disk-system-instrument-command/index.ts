@@ -12,7 +12,7 @@ export type FamicomDiskSystemInstrumentCommand = {
   readonly wavePreset: WaveformPreset;
   readonly masterVolume: U2;
   readonly modulation: {
-    readonly preset: `custom` | WaveformPreset;
+    readonly preset: null | WaveformPreset;
     readonly speed: U12;
     readonly depth: U6;
     readonly delay: U8;
