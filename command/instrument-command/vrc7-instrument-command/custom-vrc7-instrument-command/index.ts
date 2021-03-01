@@ -32,6 +32,6 @@ export type CustomVrc7InstrumentCommand = {
     readonly sustain: U4;
     readonly release: U4;
     readonly level: U6;
-    readonly feedback: U3;
   };
+  readonly feedback: U3;
 };
