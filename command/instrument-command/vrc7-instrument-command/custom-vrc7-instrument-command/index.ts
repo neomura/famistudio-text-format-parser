@@ -12,7 +12,7 @@ export type CustomVrc7InstrumentCommand = {
     readonly tremolo: boolean;
     readonly vibrato: boolean;
     readonly sustained: boolean;
-    readonly waveRecified: boolean;
+    readonly waveRectified: boolean;
     readonly keyScaling: null | U2;
     readonly frequencyMultiplier: U4;
     readonly attack: U4;

@@ -34,9 +34,14 @@ export {
 export {
   InstrumentCommand,
   FamicomDiskSystemInstrumentCommand,
+  Mmc5InstrumentCommand,
+  CustomN163InstrumentCommand,
+  PresetN163InstrumentCommand,
   N163InstrumentCommand,
   RP2A03InstrumentCommand,
-  VRC7InstrumentCommand,
+  S5bInstrumentCommand,
+  Vrc6InstrumentCommand,
+  Vrc7InstrumentCommand,
 } from "./instrument-command";
 export {
   NoteCommand,
