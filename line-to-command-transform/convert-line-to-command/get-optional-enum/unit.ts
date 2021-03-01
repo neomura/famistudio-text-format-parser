@@ -114,7 +114,7 @@ describe(`getOptionalEnum`, () => {
     },
   ]) {
     describe(successfulScenario.description, () => {
-      let output: ConversionError | null | string;
+      let output: ConversionError | null | TestEnum;
 
       beforeAll(() => {
         output = getOptionalEnum<TestEnum>(
@@ -136,7 +136,7 @@ describe(`getOptionalEnum`, () => {
       });
 
       it(`outputs as expected`, () => {
-        expect(output).toEqual(successfulScenario.output);
+        expect(output).toEqual(successfulScenario.output as TestEnum);
       });
     });
   }

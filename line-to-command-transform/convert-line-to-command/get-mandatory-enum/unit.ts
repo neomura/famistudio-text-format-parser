@@ -56,7 +56,7 @@ describe(`getMandatoryEnum`, () => {
     },
   ]) {
     describe(successfulScenario.description, () => {
-      let output: ConversionError | string;
+      let output: ConversionError | TestEnum;
 
       beforeAll(() => {
         output = getMandatoryEnum<TestEnum>(
@@ -78,7 +78,7 @@ describe(`getMandatoryEnum`, () => {
       });
 
       it(`outputs as expected`, () => {
-        expect(output).toEqual(successfulScenario.output);
+        expect(output).toEqual(successfulScenario.output as TestEnum);
       });
     });
   }
@@ -166,7 +166,7 @@ describe(`getMandatoryEnum`, () => {
   ]) {
     describe(unsuccessfulScenario.description, () => {
       let line: Line;
-      let output: ConversionError | string;
+      let output: ConversionError | TestEnum;
 
       beforeAll(() => {
         line = {
