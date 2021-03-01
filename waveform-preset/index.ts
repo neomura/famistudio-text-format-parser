@@ -4,8 +4,7 @@ export type WaveformPreset =
   | `sawtooth`
   | `square50`
   | `square25`
-  | `flat`
-  | `custom`;
+  | `flat`;
 
 export const waveformPresets: ReadonlyArray<WaveformPreset> = [
   `sine`,
@@ -14,5 +13,4 @@ export const waveformPresets: ReadonlyArray<WaveformPreset> = [
   `square50`,
   `square25`,
   `flat`,
-  `custom`,
 ];
