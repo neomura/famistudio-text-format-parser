@@ -7,8 +7,9 @@ export type WaveformPreset =
   | `flat`;
 
 export const waveformPresets: ReadonlyArray<
-  readonly [string, WaveformPreset]
+  readonly [string, null | WaveformPreset]
 > = [
+  [`Custom`, null],
   [`Sine`, `sine`],
   [`Triangle`, `triangle`],
   [`Sawtooth`, `sawtooth`],
