@@ -9,7 +9,7 @@ export type FamicomDiskSystemInstrumentCommand = {
   readonly line: Line;
   readonly kind: `famicomDiskSystemInstrument`;
   readonly name: string;
-  readonly wavePreset: WaveformPreset;
+  readonly wavePreset: null | WaveformPreset;
   readonly masterVolume: U2;
   readonly modulation: {
     readonly preset: null | WaveformPreset;
