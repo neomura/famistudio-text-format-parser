@@ -1,7 +1,7 @@
 import { Line } from "../../../line";
 import { ConversionError } from "../conversion-error";
 
-export function getMandatoryEnum<T extends string>(
+export function getMandatoryEnum<T>(
   line: Line,
   key: string,
   values: ReadonlyArray<readonly [string, T]>
