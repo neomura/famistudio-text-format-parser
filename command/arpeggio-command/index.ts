@@ -6,6 +6,6 @@ export type ArpeggioCommand = {
   readonly line: Line;
   readonly kind: `arpeggio`;
   readonly name: string;
-  readonly loop: U8;
+  readonly loop: null | U8;
   readonly values: ReadonlyArray<S7>;
 };

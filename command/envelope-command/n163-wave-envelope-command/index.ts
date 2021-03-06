@@ -1,25 +1,8 @@
 import { Line } from "../../../line";
-import { U4 } from "../../../u4";
+import { N163Wave } from "../../../n163-wave";
 
 export type N163WaveEnvelopeCommand = {
   readonly line: Line;
   readonly kind: `n163WaveEnvelope`;
-  readonly values: readonly [
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4,
-    U4
-  ];
+  readonly values: N163Wave;
 };

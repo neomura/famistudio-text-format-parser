@@ -27,7 +27,7 @@ export {
   DpcmSampleCommand,
   EnvelopeCommand,
   ArpeggioEnvelopeCommand,
-  DutyEnvelopeCommand,
+  DutyCycleEnvelopeCommand,
   FamicomDiskSystemModulationEnvelopeCommand,
   FamicomDiskSystemWaveEnvelopeCommand,
   N163WaveEnvelopeCommand,
