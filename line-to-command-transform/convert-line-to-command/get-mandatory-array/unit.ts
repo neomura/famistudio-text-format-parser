@@ -18,7 +18,7 @@ describe(`getMandatoryArray`, () => {
         testAttributeBKey: {
           keyColumn: 108,
           valueColumn: 122,
-          value: `-4`,
+          value: `-4,0,0,0`,
         },
         testAttributeCKey: {
           keyColumn: 155,
@@ -26,7 +26,7 @@ describe(`getMandatoryArray`, () => {
           value: `Test Attribute C Value`,
         },
       },
-      output: [-4],
+      output: [-4, 0, 0, 0],
     },
     {
       description: `zero`,
@@ -39,7 +39,7 @@ describe(`getMandatoryArray`, () => {
         testAttributeBKey: {
           keyColumn: 108,
           valueColumn: 122,
-          value: `0`,
+          value: `0,0,0,0`,
         },
         testAttributeCKey: {
           keyColumn: 155,
@@ -47,7 +47,7 @@ describe(`getMandatoryArray`, () => {
           value: `Test Attribute C Value`,
         },
       },
-      output: [0],
+      output: [0, 0, 0, 0],
     },
     {
       description: `negative zero`,
@@ -60,7 +60,7 @@ describe(`getMandatoryArray`, () => {
         testAttributeBKey: {
           keyColumn: 108,
           valueColumn: 122,
-          value: `-0`,
+          value: `-0,0,0,0`,
         },
         testAttributeCKey: {
           keyColumn: 155,
@@ -68,7 +68,7 @@ describe(`getMandatoryArray`, () => {
           value: `Test Attribute C Value`,
         },
       },
-      output: [0],
+      output: [0, 0, 0, 0],
     },
     {
       description: `maximum`,
@@ -81,7 +81,7 @@ describe(`getMandatoryArray`, () => {
         testAttributeBKey: {
           keyColumn: 108,
           valueColumn: 122,
-          value: `7`,
+          value: `7,0,0,0`,
         },
         testAttributeCKey: {
           keyColumn: 155,
@@ -89,7 +89,7 @@ describe(`getMandatoryArray`, () => {
           value: `Test Attribute C Value`,
         },
       },
-      output: [7],
+      output: [7, 0, 0, 0],
     },
     {
       description: `signed maximum`,
@@ -102,7 +102,7 @@ describe(`getMandatoryArray`, () => {
         testAttributeBKey: {
           keyColumn: 108,
           valueColumn: 122,
-          value: `+7`,
+          value: `+7,0,0,0`,
         },
         testAttributeCKey: {
           keyColumn: 155,
@@ -110,7 +110,7 @@ describe(`getMandatoryArray`, () => {
           value: `Test Attribute C Value`,
         },
       },
-      output: [7],
+      output: [7, 0, 0, 0],
     },
     {
       description: `padded`,
@@ -123,7 +123,7 @@ describe(`getMandatoryArray`, () => {
         testAttributeBKey: {
           keyColumn: 108,
           valueColumn: 122,
-          value: ` \n   \t   \r  4 \n   \t   \r  `,
+          value: ` \n   \t   \r  4 \n   \t   \r  ,0,0,0 \n \n \t \r `,
         },
         testAttributeCKey: {
           keyColumn: 155,
@@ -131,7 +131,7 @@ describe(`getMandatoryArray`, () => {
           value: `Test Attribute C Value`,
         },
       },
-      output: [4],
+      output: [4, 0, 0, 0],
     },
     {
       description: `multiple`,
@@ -189,7 +189,9 @@ describe(`getMandatoryArray`, () => {
           },
           `testAttributeBKey`,
           -4,
-          7
+          7,
+          3,
+          5
         );
       });
 
@@ -239,7 +241,7 @@ describe(`getMandatoryArray`, () => {
           value: `Test Attribute C Value`,
         },
       },
-      output: `Attribute "testAttributeBKey" is mandatory for line type "Test Type", but its value does not contain an array of integers`,
+      output: `Attribute "testAttributeBKey" is mandatory for line type "Test Type", but it was not given`,
     },
     {
       description: `white space`,
@@ -260,7 +262,7 @@ describe(`getMandatoryArray`, () => {
           value: `Test Attribute C Value`,
         },
       },
-      output: `Attribute "testAttributeBKey" is mandatory for line type "Test Type", but its value does not contain an array of integers`,
+      output: `Attribute "testAttributeBKey" is mandatory for line type "Test Type", but it was not given`,
     },
     {
       description: `non-integer`,
@@ -389,6 +391,48 @@ describe(`getMandatoryArray`, () => {
       output: `Attribute "testAttributeBKey" must contain values less than or equal to 7 for line type "Test Type", but one of its values is 8`,
     },
     {
+      description: `too few`,
+      input: {
+        testAttributeAKey: {
+          keyColumn: 36,
+          valueColumn: 72,
+          value: `Test Attribute A Value`,
+        },
+        testAttributeBKey: {
+          keyColumn: 108,
+          valueColumn: 122,
+          value: `4,-3`,
+        },
+        testAttributeCKey: {
+          keyColumn: 155,
+          valueColumn: 178,
+          value: `Test Attribute C Value`,
+        },
+      },
+      output: `Attribute "testAttributeBKey" cannot contain fewer than 3 items for line type "Test Type", but only 2 were given`,
+    },
+    {
+      description: `too many`,
+      input: {
+        testAttributeAKey: {
+          keyColumn: 36,
+          valueColumn: 72,
+          value: `Test Attribute A Value`,
+        },
+        testAttributeBKey: {
+          keyColumn: 108,
+          valueColumn: 122,
+          value: `4,-3,4,0,2,7`,
+        },
+        testAttributeCKey: {
+          keyColumn: 155,
+          valueColumn: 178,
+          value: `Test Attribute C Value`,
+        },
+      },
+      output: `Attribute "testAttributeBKey" cannot contain more than 5 items for line type "Test Type", but 6 were given`,
+    },
+    {
       description: `empty value`,
       input: {
         testAttributeAKey: {
@@ -447,7 +491,9 @@ describe(`getMandatoryArray`, () => {
           line,
           `testAttributeBKey`,
           -4,
-          7
+          7,
+          3,
+          5
         );
       });
 
